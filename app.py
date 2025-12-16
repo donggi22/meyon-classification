@@ -288,8 +288,13 @@ if run_btn:
 
             rows: List[Dict] = []
             for r in results:
-                if getattr(r, "boxes", None) is None:
+                # None 체크를 먼저
+                if r.boxes is None:
                     continue
+                # 이제 r.boxes는 None이 아님이 보장됨
+                if len(r.boxes) == 0:
+                    continue
+
                 for box in r.boxes:
                     cls  = int(box.cls[0].item())
                     conf = float(box.conf[0].item())
